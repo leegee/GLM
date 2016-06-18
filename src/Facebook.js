@@ -1,20 +1,21 @@
 'use strict';
 
 const Step = require('step');
-const Log4js = require('log4js');
-const logger = Log4js.getLogger();
+const Base = require('./Base');
+const Page = require('./Facebook/Page');
 
-module.exports = Facebook;
+console.log(Base)
 
-function Facebook(options) {
-    this.options = Object.assign(
-        {}, options
-    );
+module.exports = function Facebook(options) {
+    Base.call(this, options);
     this.accessToken = null;
     this.FB = require('fb');
 }
 
-Facebook.prototype.connect = function () {
+module.exports.prototype = Object.create(Base);
+module.exports.prototype.constructor = module.exports;
+
+module.exports.prototype.connect = function () {
     Step(
         // Login
         () => {
@@ -22,7 +23,7 @@ Facebook.prototype.connect = function () {
                 redirect_uri: this.options.facebook.redirectUri,
                 client_id: this.options.facebook.appId,
                 client_secret: this.options.facebook.appSecret,
-                grant_type: 'client_credentials' 
+                grant_type: 'client_credentials'
             }, (res) => {
                 if (!res || res.error) {
                     console.error(!res ? 'error occurred' : res.error);
@@ -35,3 +36,7 @@ Facebook.prototype.connect = function () {
     );
 };
 
+module.exports.prototype.page = function (pageId) {
+    var options = Object.assign(this.options, { FB: this.FB, id: pageId });
+    return new Page(options);
+};

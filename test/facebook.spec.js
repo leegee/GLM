@@ -2,13 +2,13 @@
 
 const assert = require('chai').assert;
 const expect = require('chai').expect;
-const PROJECT_ROOT = '../';
+const Page = require('../src/facebook/page');
 
 var config;
 
 describe('Config', function () {
     it ('loads', function () {
-        config = require( __dirname + '/../config.js');
+        config = require( __dirname + '/../config');
         expect(config).to.be.an('object');
         expect(config.facebook).to.be.an('object');
         expect(config.facebook.appId).to.be.a('string');
@@ -16,7 +16,7 @@ describe('Config', function () {
 });
 
 describe('Facebook', function () {
-    var Facebook, facebook;
+    var Facebook, facebook, Page, page;
 
     it('should instantiate', function () {
         Facebook = require( '../src/facebook');
@@ -35,9 +35,10 @@ describe('Facebook', function () {
     });
 
     describe('Page', function () {
-        it('should return -1 when the value is not present', function () {
-            assert.equal(-1, [1, 2, 3].indexOf(5));
-            assert.equal(-1, [1, 2, 3].indexOf(0));
+        it('should be created', function () {
+            page = facebook.page();
+            expect(page).not.to.be.an('undefined');
+            expect(page).to.be.an.instanceof(Page);
         });
     });
 
