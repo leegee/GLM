@@ -23,7 +23,7 @@ describe('Facebook', function () {
         expect(Facebook).not.to.be.an('undefined');
         facebook = new Facebook( config );
         expect(facebook).to.be.an('object');
-        expect(facebook).to.be.an.instanceof(Faecbook);
+        expect(facebook).to.be.an.instanceof(Facebook);
         // expect(facebook.options).to.be.an('object');
         // expect(facebook.options.facebook).to.be.an('object');
         // expect(facebook.options.facebook.appId).to.be.a('string');
