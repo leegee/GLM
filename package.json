@@ -1,0 +1,46 @@
+{
+  "name": "golem",
+  "version": "0.0.1",
+  "description": "The Golem",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "fb": "^1.1.1",
+    "log4js": "^0.6.37",
+    "step": "0.0.6"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^2.13.0",
+    "karma": "^0.13.22",
+    "karma-mocha": "^1.0.1",
+    "mocha": "^2.5.3"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "golem"
+  ],
+  "author": "Lee Goddard",
+  "license": "ISC",
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "mocha": true,
+      "es6": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rules": {
+      "semi": 2
+    }
+  }
+}
