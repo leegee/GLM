@@ -1,9 +1,10 @@
 'use strict';
 
-const assert = require('chai').assert;
-const expect = require('chai').expect;
-const Page = require('../src/Facebook/Page');
-const Facebook = require('../src/facebook');
+const chai = require('chai');
+const assert = chai.assert;
+const expect = chai.expect;
+const Page = require('../lib/Facebook/Page');
+const Facebook = require('../lib/facebook');
 
 var config;
 
