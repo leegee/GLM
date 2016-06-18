@@ -24,9 +24,14 @@ describe('Facebook', function () {
         facebook = new Facebook( config );
         expect(facebook).to.be.an('object');
         expect(facebook).to.be.an.instanceof(Facebook);
-        // expect(facebook.options).to.be.an('object');
-        // expect(facebook.options.facebook).to.be.an('object');
-        // expect(facebook.options.facebook.appId).to.be.a('string');
+        expect(facebook.options).to.be.an('object');
+        expect(facebook.options.facebook).to.be.an('object');
+        expect(facebook.options.facebook.appId).to.be.a('string');
+    });
+
+    it('connects', function () {
+        facebook.connect();
+        expect(facebook.accessToken).not.to.be.an('undefined');
     });
 
     describe('Page', function () {
