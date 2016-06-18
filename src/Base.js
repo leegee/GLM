@@ -12,7 +12,7 @@ module.exports.latestError = function latestError () {
     return this.errors[ this.errors.length -1 ];
 };
 
-module.exports.fatalErrorResponse = function (res) {
+module.exports.isError = function (res) {
     if (!res || res.error) {
         this.errors.push( 
             !res ? 'An error occurred before response was received' : res.error
@@ -20,4 +20,5 @@ module.exports.fatalErrorResponse = function (res) {
         this.logger.error( this.errors[ this.errors.length -1 ] );
         return this.latestError();
     }
+    return null;
 };

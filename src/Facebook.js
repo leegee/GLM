@@ -21,13 +21,13 @@ module.exports.prototype.connect = function () {
             client_secret: this.options.facebook.appSecret,
             grant_type: 'client_credentials'
         }, (res) => {
-            var err = this.isError(res);
-            if (err) {
-                return reject(err);
+            if ((this.error = this.isError(res))) {
+                reject(this.error);
+            } else {
+                this.accessToken = res.access_token;
+                this.options.FB.setAccessToken(this.accessToken);
+                resolve( this.accessToken );
             }
-            this.accessToken = res.access_token;
-            this.options.FB.setAccessToken(this.accessToken);
-            resolve( this.accessToken );
         });
     });
 };
