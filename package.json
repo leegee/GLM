@@ -7,6 +7,7 @@
     "test": "test"
   },
   "dependencies": {
+    "elasticsearch": "^11.0.1",
     "fb": "^1.1.1",
     "log4js": "^0.6.37"
   },
@@ -27,8 +28,21 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:leegee/golem.git"  
+    "url": "git@github.com:leegee/golem.git"
   },
   "author": "Lee Goddard",
-  "license": "ISC"
+  "license": "ISC",
+  "facebook": {
+    "rootUrl": "http://local.leegoddard.net:3000/",
+    "redirectUri": "http://local.leegoddard.net:3000/login/callback",
+    "appId": "1748057015406814",
+    "appSecret": "d2f5c6cc0d89939d0f43b45d3b2e9336",
+    "appNamespace": "golem"
+  },
+  "elasticsearch": {
+    "host": "localhost",
+    "port": "9200",
+    "index": "postings",
+    "bin": "elasticsearch-2.0.0/bin/elasticsearch"
+  }
 }

@@ -13,7 +13,7 @@ describe('Load modules', function () {
 
     describe('Config', function () {
         it('loads', function () {
-            config = require(__dirname + '/../config');
+            config = require(__dirname + '/../package.json');
             expect(config).to.be.an('object');
             expect(config.facebook).to.be.an('object');
             expect(config.facebook.appId).to.be.a('string');
