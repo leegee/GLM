@@ -2,24 +2,30 @@
 
 const assert = require('chai').assert;
 const expect = require('chai').expect;
-const Page = require('../src/facebook/page');
+const Page = require('../src/Facebook/Page');
+const Facebook = require( '../src/facebook');
 
 var config;
 
-describe('Config', function () {
-    it ('loads', function () {
-        config = require( __dirname + '/../config');
-        expect(config).to.be.an('object');
-        expect(config.facebook).to.be.an('object');
-        expect(config.facebook.appId).to.be.a('string');
+describe('Load modules', function () {
+    expect(Facebook).not.to.be.an('undefined');
+    expect(Page).not.to.be.an('undefined');
+
+    describe('Config', function () {
+        it ('loads', function () {
+            config = require( __dirname + '/../config');
+            expect(config).to.be.an('object');
+            expect(config.facebook).to.be.an('object');
+            expect(config.facebook.appId).to.be.a('string');
+        });
     });
 });
 
+
 describe('Facebook', function () {
-    var Facebook, facebook, Page, page;
+    var facebook, page;
 
     it('should instantiate', function () {
-        Facebook = require( '../src/facebook');
         expect(Facebook).not.to.be.an('undefined');
         facebook = new Facebook( config );
         expect(facebook).to.be.an('object');
@@ -29,14 +35,19 @@ describe('Facebook', function () {
         expect(facebook.options.facebook.appId).to.be.a('string');
     });
 
-    it('connects', function () {
-        facebook.connect();
-        expect(facebook.accessToken).not.to.be.an('undefined');
+    it('connects', function (done) {
+        expect(facebook.accessToken).to.be.a('null');
+        var c = facebook.connect();
+        expect(c).to.be.instanceof(Promise);
+        c.then( () => {
+            expect(facebook.accessToken).not.to.be.an('undefined');
+            done();
+        });
     });
 
     describe('Page', function () {
         it('should be created', function () {
-            page = facebook.page();
+            page = facebook.newPage('142326775790907');
             expect(page).not.to.be.an('undefined');
             expect(page).to.be.an.instanceof(Page);
         });
