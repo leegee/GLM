@@ -4,6 +4,7 @@ Golem
 Install
 -------
     sudo npm install --global mocha
+    sudo npm install --global karma-cli
     npm install
     npm test
 
