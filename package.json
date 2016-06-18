@@ -25,6 +25,10 @@
   "keywords": [
     "golem"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:leegee/golem.git"  
+  },
   "author": "Lee Goddard",
   "license": "ISC"
 }
