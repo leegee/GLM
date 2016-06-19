@@ -15,7 +15,7 @@ var TEST_INDEX_NAME = config.elasticsearch.index = 'test';
 var es;
 
 describe('ElasticGolem Initialisation', function () {
-	this.timeout(10000);
+	this.timeout(10 * 1000);
 	it('constructs a class and instance', () => {
 		es = new ElasticGolem(config);
 		should.equal(typeof es, "object", "Construted");
@@ -25,10 +25,12 @@ describe('ElasticGolem Initialisation', function () {
 	it('sets up an index', (done) => {
 		es.setup()
 			.then(function () {
-				es.index({
+				es.save({
 					"id": "1",
 					"text": "Test text from a Facebook message.",
-					"source": "Facebook"
+					"source": "Facebook",
+					"created": "2012-06-14T01:26:14+0000",
+					"siteid": "142326775790907_427534710603444"
 				});
 			})
 			.then((err, resp, respcode) => {

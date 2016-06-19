@@ -53,17 +53,17 @@ describe('Facebook', function () {
 			expect(page).to.be.an.instanceof(Page);
 		});
 
-		it('should fetch from Facebook', (done) => {
-			page.get()
-				.then((result) => {
-					expect(result).to.be.defined();
-					console.log(result);
-					done();
-				})
-				.catch((err) => {
-					fail();
-					done();
-				});
+		it('should fetch from Facebook', function (done) {
+			this.timeout = 10 * 1000;
+			var p = page.get();
+			expect(p).to.be.an.instanceof(Promise);
+			p.then(() => {
+				pass();
+				done();
+			}).catch((err) => {
+				fail();
+				done();
+			});
 		});
 	});
 

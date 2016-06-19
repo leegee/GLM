@@ -40,7 +40,7 @@
     "appNamespace": "golem"
   },
   "elasticsearch": {
-    "logLevel": "trace",
+    "logLevel": "info",
     "host": "localhost",
     "port": "9200",
     "index": "postings",
