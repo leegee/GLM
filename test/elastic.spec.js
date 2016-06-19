@@ -1,81 +1,80 @@
-/** Test our elasticsearch interface class */
-/* globals describe, it, before, after */
+/**
+ *  Test our elasticsearch interface class 
+ */
+
+/* env: mocha */
 
 "use strict";
 const should = require('chai').should();
 const log4js = require('Log4js');
-const Elasticsearch = require('../lib/Elastic');
+const Elasticsearch = require('../lib/ElasticGolem');
 
 var config = require('../package.json');
-config.index = 'test';
+var TEST_INDEX_NAME = config.elasticsearch.index = 'test';
 
-before(function (done) {
-    var elasticsearch;
+var es;
+
+describe('Init', function () {
     this.timeout(10000);
-    elasticsearch = new Elasticsearch(config);
-    elasticsearch.setup()
-        .then(function () {
-            elasticsearch.index({
-                "id": "1",
-                "title": "Test",
-                "genres": ['test', 'foo'],
-            });
-        }).then(function (err, resp, respcode) {
-            done();
-        });
-});
-
-after(function (done) {
-    this.timeout(10000);
-    elasticsearch.client.indices.delete({
-        index: TEST_INDEX_NAME
-    }).then(function (err, resp, respcode) {
-        done();
-    });
-});
-
-describe('Elasticsearch class', function () {
     it('is as expected', function () {
-        var es = new Elasticsearch();
+        es = new Elasticsearch(config);
         should.equal(typeof es, "object", "Construted");
         es.should.be.instanceof(Elasticsearch, "Construted class");
     });
 
-    it('lists generes', function (done) {
-        new Elasticsearch().genreList('Sci-fi').then(function (res) {
-            var genres = res.aggregations.genres.buckets;
-            should.equal(typeof genres, 'object', 'genres list');
-            genres.should.be.instanceof(Array, 'genres list');
-            genres.should.have.length.gt(3);
-            genres.should.include('Thriller', 'Drama', 'Adventure');
-            done();
-        }).catch(function (e) {
-            done();
-        });
+    it('sets up an index', function (done) {
+        es.setup()
+            .then(function () {
+                es.index({
+                    "id": "1",
+                    "text": "Test"
+                });
+            })
+            .then((err, resp, respcode) => {
+                done();
+            });
     });
+});
 
+describe('Elasticsearch class', function () {
     it('search with term', function (done) {
-        new Elasticsearch().search('Sci-fi').then(function (res) {
-            var hits = res.hits.hits;
-            should.equal(typeof hits, 'object', 'hits list');
-            hits.should.be.instanceof(Array, 'hits list');
-            hits.should.have.length.gt(0);
-            done();
-        }).catch(function (e) {
-            done();
-        });
+        es.search('Sci-fi')
+            .then((res) => {
+                var hits = res.hits.hits;
+                should.equal(typeof hits, 'object', 'hits list');
+                hits.should.be.instanceof(Array, 'hits list');
+                hits.should.have.length.gt(0);
+                done();
+            })
+            .catch((e) => {
+                done(e);
+            });
     });
 
     it('search without term', function (done) {
-        new Elasticsearch().search().then(function (res) {
-            var hits = res.hits.hits;
-            should.equal(typeof hits, 'object', 'hits list');
-            hits.should.be.instanceof(Array, 'hits list');
-            hits.should.have.length.gt(0);
-            done();
-        }).catch(function (e) {
-            done();
-        });
+        es.search()
+            .then((res) => {
+                var hits = res.hits.hits;
+                should.equal(typeof hits, 'object', 'hits list');
+                hits.should.be.instanceof(Array, 'hits list');
+                hits.should.have.length.gt(0);
+                done();
+            })
+            .catch((e) => {
+                done(e);
+            });
     });
 
+    after(function (done) {
+        this.timeout(10000);
+        es.client.indices.delete({
+            index: TEST_INDEX_NAME
+        })
+            .then(function (err, resp, respcode) {
+                done();
+            })
+            .catch((e) => {
+                done(e);
+            });
+    });
 });

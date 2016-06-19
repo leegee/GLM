@@ -1,6 +1,12 @@
 Golem
 =====
 
+Prerequisites
+-------------
+* Java
+* ElasticSearch
+
+
 Install
 -------
     sudo npm install --global mocha
