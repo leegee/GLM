@@ -16,13 +16,13 @@ var es;
 
 describe('ElasticGolem Initialisation', function () {
 	this.timeout(10000);
-	it('constructs a class and instance', function () {
+	it('constructs a class and instance', () => {
 		es = new ElasticGolem(config);
 		should.equal(typeof es, "object", "Construted");
 		es.should.be.instanceof(ElasticGolem, "Construted class");
 	});
 
-	it('sets up an index', function (done) {
+	it('sets up an index', (done) => {
 		es.setup()
 			.then(function () {
 				es.index({
@@ -31,14 +31,19 @@ describe('ElasticGolem Initialisation', function () {
 					"source": "Facebook"
 				});
 			})
-			.then((err, resp, respcode) => done )
-			.catch((e) => done(e));
+			.then((err, resp, respcode) => {
+				setTimeout( done, 2000 ); // wait
+			})
+			.catch((e) => {
+				fail();
+				setTimeout( done, 2000 ); // wait
+			});
 	});
 });
 
-describe('ElasticGolem class', function () {
-	it('searches with term', function (done) {
-		es.search('Sci-fi')
+describe('ElasticGolem class', () => {
+	it('searches with term', (done) => {
+		es.search('test')
 			.then((res) => {
 				var hits = res.hits.hits;
 				should.equal(typeof hits, 'object', 'hits list');
@@ -46,10 +51,13 @@ describe('ElasticGolem class', function () {
 				hits.should.have.length.gt(0);
 				done();
 			})
-			.catch((e) => done);
+			.catch((e) => {
+				fail();
+				done();
+			});
 	});
 
-	it('searches without term', function (done) {
+	it('searches without term', (done) => {
 		es.search()
 			.then((res) => {
 				var hits = res.hits.hits;
@@ -58,15 +66,22 @@ describe('ElasticGolem class', function () {
 				hits.should.have.length.gt(0);
 				done();
 			})
-			.catch((e) => done);
+			.catch((e) => {
+				fail();
+				done();
+			}	);
 	});
 
-	after(function (done) {
-		this.timeout(10000);
+
+	it('removes the index', (done) => {
 		es.client.indices.delete({
 			index: TEST_INDEX_NAME
 		})
-			.then((err, resp, respcode) => done)
-			.catch((e) => done);
+			.then((err, resp, respcode) => {
+				done();
+			})
+			.catch((e) => {
+				done(e)
+			});
 	});
 });
