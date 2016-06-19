@@ -56,7 +56,6 @@ describe('Facebook', function () {
 		});
 
 		it('should fetch from Facebook', function (done) {
-			this.timeout( 10 * 1000 );
 			var p = page.get();
 			expect(p).to.be.an.instanceof(Promise);
 			p
