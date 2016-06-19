@@ -16,6 +16,7 @@ var es;
 
 describe('ElasticGolem Initialisation', function () {
 	this.timeout(10 * 1000);
+
 	it('constructs a class and instance', () => {
 		es = new ElasticGolem(config);
 		should.equal(typeof es, "object", "Construted");
@@ -71,7 +72,7 @@ describe('ElasticGolem class', () => {
 			.catch((e) => {
 				fail();
 				done();
-			}	);
+			});
 	});
 
 
@@ -80,10 +81,12 @@ describe('ElasticGolem class', () => {
 			index: TEST_INDEX_NAME
 		})
 			.then((err, resp, respcode) => {
+				console.log('done'.repeat(10));
 				done();
 			})
 			.catch((e) => {
-				done(e)
+				console.log('fail'.repeat(10));
+				done(e);
 			});
 	});
 });
