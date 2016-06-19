@@ -24,7 +24,7 @@ describe('Load modules', function () {
 
 
 describe('Facebook', function () {
-	var facebook, page;
+	var facebook;
 
 	it('should instantiate', function () {
 		expect(Facebook).not.to.be.an('undefined');
@@ -47,6 +47,8 @@ describe('Facebook', function () {
 	});
 
 	describe('Page', function () {
+		var page;
+		this.timeout = 10 * 1000;
 		it('should be instantiate from Facebook', function () {
 			page = facebook.newPage('142326775790907');
 			expect(page).not.to.be.an('undefined');
@@ -54,7 +56,6 @@ describe('Facebook', function () {
 		});
 
 		it('should fetch from Facebook', function (done) {
-			this.timeout = 10 * 1000;
 			var p = page.get();
 			expect(p).to.be.an.instanceof(Promise);
 			p.then(() => {
