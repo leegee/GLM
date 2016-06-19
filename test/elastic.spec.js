@@ -5,7 +5,13 @@
 /* env: mocha */
 
 "use strict";
-const should = require('chai').should();
+
+const chai = require('chai');
+const chaiAsPromised = require("chai-as-promised");
+chai.use(chaiAsPromised);
+const should = chai.should();
+
+require('../lib/Errors');
 const log4js = require('Log4js');
 const ElasticGolem = require('../lib/ElasticGolem');
 
@@ -13,6 +19,13 @@ var config = require('../package.json');
 var TEST_INDEX_NAME = config.elasticsearch.index = 'test';
 
 var es;
+var record = {
+	"id": "1",
+	"text": "Test text from a Facebook message.",
+	"source": "Facebook",
+	"created": "2012-06-14T01:26:14+0000",
+	"siteid": "142326775790907_427534710603444"
+};
 
 describe('ElasticGolem Initialisation', function () {
 	this.timeout(10 * 1000);
@@ -23,24 +36,15 @@ describe('ElasticGolem Initialisation', function () {
 		es.should.be.instanceof(ElasticGolem, "Construted class");
 	});
 
-	it('sets up an index', (done) => {
+	it('sets up an index', () => {
 		es.setup()
 			.then(function () {
-				es.save({
-					"id": "1",
-					"text": "Test text from a Facebook message.",
-					"source": "Facebook",
-					"created": "2012-06-14T01:26:14+0000",
-					"siteid": "142326775790907_427534710603444"
-				});
+				es.save(record);
 			})
-			.then((err, resp, respcode) => {
-				setTimeout( done, 2000 ); // wait
+			.should.be.fulfilled.then(() => {
+				es.save(record);
 			})
-			.catch((e) => {
-				fail();
-				setTimeout( done, 2000 ); // wait
-			});
+			.should.be.rejectedWith(DuplicateEntryError, 'duplicate entry');
 	});
 });
 
@@ -53,10 +57,6 @@ describe('ElasticGolem class', () => {
 				hits.should.be.instanceof(Array, 'hits list');
 				hits.should.have.length.gt(0);
 				done();
-			})
-			.catch((e) => {
-				fail();
-				done();
 			});
 	});
 
@@ -68,25 +68,14 @@ describe('ElasticGolem class', () => {
 				hits.should.be.instanceof(Array, 'hits list');
 				hits.should.have.length.gt(0);
 				done();
-			})
-			.catch((e) => {
-				fail();
-				done();
 			});
 	});
 
 
-	it('removes the index', (done) => {
+	it('removes the index', function () {
+		this.timeout(10 * 1000);
 		es.client.indices.delete({
 			index: TEST_INDEX_NAME
-		})
-			.then((err, resp, respcode) => {
-				console.log('done'.repeat(10));
-				done();
-			})
-			.catch((e) => {
-				console.log('fail'.repeat(10));
-				done(e);
-			});
+		}).should.be.fulfilled;
 	});
 });
