@@ -63,7 +63,7 @@ describe('Facebook', function () {
 				.catch((err) => {
 					fail();
 					done();
-				})
+				});
 		});
 	});
 
