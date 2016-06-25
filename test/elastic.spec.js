@@ -12,6 +12,7 @@ chai.use(chaiAsPromised);
 const should = chai.should();
 
 require('../lib/Errors');
+var logger = new require('../lib/Logger');
 const ElasticGolem = require('../lib/ElasticGolem');
 
 var config = require('../package.json');
