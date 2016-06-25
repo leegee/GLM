@@ -46,9 +46,18 @@ afterEach( function () {
 describe('ElasticGolem', function () {
 	// this.timeout(30 * 1000);
 
+	describe('test', function () {
+		it('defines an instance', function () {
+			es.should.be.defined;
+			es.should.be.instanceof(ElasticGolem);
+		});
+	});
+
 	describe('pseudo-static', function () {
-		es.unqiueBodyProperties.should.be.defined;
-		Object.keys(es.unqiueBodyProperties).length.should.be.gt(0);
+		it('unqiueBodyProperties', function () {
+			es.unqiueBodyProperties.should.be.defined;
+			Object.keys(es.unqiueBodyProperties).length.should.be.gt(0);
+		});
 	});
 
 	describe('save', function () {
