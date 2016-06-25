@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Mocha",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/node_modules/.bin/mocha",
+            "args": [],
+            "cwd" : "${workspaceRoot}",
+            "runtimeExecutable": null,
+            "stopOnEntry": false,
+            "preLaunchTask": null,
+            "externalConsole": false,
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "env": {
+                "NODE_ENV" : "development"
+            },
+            "sourceMaps": false,
+            "outDir": null
+        }
+    ]
+}
