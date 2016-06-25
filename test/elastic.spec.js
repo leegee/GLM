@@ -12,7 +12,6 @@ chai.use(chaiAsPromised);
 const should = chai.should();
 
 require('../lib/Errors');
-const log4js = require('Log4js');
 const ElasticGolem = require('../lib/ElasticGolem');
 
 var config = require('../package.json');
@@ -61,7 +60,7 @@ describe('ElasticGolem', function () {
 	});
 
 	describe('save', function () {
-		it('saves a record', () => {
+		it('saves a unique record', () => {
 			es.save(record);
 		});
 

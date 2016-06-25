@@ -1,0 +1,12 @@
+
+module.exports = {
+  appenders: [
+    {
+      type: 'console',
+      layout: {
+        type: 'pattern',
+        pattern: "[%r] [%[%5.5p%]] - %m%n"
+      }
+    }
+  ]
+};

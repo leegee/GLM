@@ -15,6 +15,8 @@ Install
 
 Dev
 ---
+If you do not recognise the tri-tier architecture in `.config`, please drop me a line.  If you do recognise it, `export ENV=[dev|ci|prod]`.
+
     mocha [$fie]
     eslint
     git commit -am $what
