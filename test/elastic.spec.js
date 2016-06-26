@@ -66,7 +66,7 @@ describe('ElasticGolem', function () {
 
 	describe('save', function () {
 		it('saves a unique record', () => {
-			es.save(record);
+			return es.save(record);
 		});
 
 		it('duplicate detected', () => {
@@ -75,7 +75,6 @@ describe('ElasticGolem', function () {
 					return es.save(record);
 				})
 				.then(() => {
-					console.error(arguments);
 					throw new Error('Failed ');
 				})
 				.catch( (e) => {
@@ -86,15 +85,15 @@ describe('ElasticGolem', function () {
 
 	xdescribe('search', () => {
 		it('search with term returns a Promise', () => {
-			es.search('test').should.be.fulfilled;
+			return es.search('test').should.be.fulfilled;
 		});
 
 		it('search without term returns a Promise', () => {
-			es.search().should.be.fulfilled;
+			return es.search().should.be.fulfilled;
 		});
 
 		it('searches with term', (done) => {
-			es.search('test')
+			return es.search('test')
 				.then((res) => {
 					var hits = res.hits.hits;
 					should.equal(typeof hits, 'object', 'hits list');
@@ -109,7 +108,7 @@ describe('ElasticGolem', function () {
 		});
 
 		it('searches without any term', (done) => {
-			es.search()
+			return es.search()
 				.then((res) => {
 					var hits = res.hits.hits;
 					should.equal(typeof hits, 'object', 'hits list');

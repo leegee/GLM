@@ -13,5 +13,5 @@ module.exports = {
     ]
   },
   dir: __dirname + '/..',
-  log4jsx: '  at @file.@name line @line'
+  log4jsx: '  at @mod.@name in @file:@line'
 };
