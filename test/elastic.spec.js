@@ -6,38 +6,32 @@
 
 "use strict";
 
+const CLEAN_WHEN_DONE = false;
+
 const chai = require('chai');
 const chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 const should = chai.should();
 
 require('../lib/Errors');
-var logger = new require('../lib/Logger');
+const logger = new require('../lib/Logger');
+const Posting = require('../lib/Posting');
 const ElasticGolem = require('../lib/ElasticGolem');
 
 var config = require('../package.json');
-var TEST_INDEX_NAME = config.elasticsearch.index = 'test';
+config.elasticsearch.index = 'test';
 
-var es;
-var record = {
+const postingFixture = {
 	"id": "1",
 	"text": "Test text from a Facebook message.",
 	"source": "Facebook",
 	"created": "2012-06-14T01:26:14+0000",
-	"siteid": "142326775790907_427534710603444"
+	"idfromsite": "99999999999999_999999999999999"
 };
 
-before( function () {
-	this.timeout(30 * 1000);
-	es = new ElasticGolem(config);
-	return es.setup()
-		.catch( (err) => {
-			throw err;
-		});
-});
+var es, posting;
 
-after( function () {
-	this.timeout(10 * 1000);
+function cleanES() {
 	return es.client.indices.delete({
 		index: '_all'
 	}).then(() => {
@@ -45,11 +39,29 @@ after( function () {
 	}).catch((err) => {
 		console.error('Failed to delete all indexes', err);
 	});
+}
+
+before(function () {
+	this.timeout(30 * 1000);
+	es = new ElasticGolem(config);
+	return cleanES().then(() => {
+		es.setup();
+	}).then(() => {
+		posting = new Posting(postingFixture);
+	})
+		.catch((err) => {
+			throw err;
+		});
+});
+
+after(function () {
+	if (CLEAN_WHEN_DONE) {
+		this.timeout(10 * 1000);
+		return cleanES();
+	}
 });
 
 describe('ElasticGolem', function () {
-	// this.timeout(30 * 1000);
-
 	describe('test', function () {
 		it('defines an instance', function () {
 			es.should.be.defined;
@@ -57,7 +69,7 @@ describe('ElasticGolem', function () {
 		});
 	});
 
-	describe('pseudo-static', function () {
+	describe('fields', function () {
 		it('unqiueBodyProperties', function () {
 			es.unqiueBodyProperties.should.be.defined;
 			Object.keys(es.unqiueBodyProperties).length.should.be.gt(0);
@@ -65,21 +77,16 @@ describe('ElasticGolem', function () {
 	});
 
 	describe('save', function () {
-		it('saves a unique record', () => {
-			return es.save(record);
+		it('saves a unique posting', () => {
+			return es.save(posting);
 		});
 
 		it('duplicate detected', () => {
-			return es.save(record)
-				.then(() => {
-					return es.save(record);
-				})
-				.then(() => {
-					throw new Error('Failed ');
-				})
-				.catch( (e) => {
-					e.should.be.an.instanceof( DuplicateEntryError );
-				});
+			return es.save(posting).then(() => {
+				throw new Error('Failed ');
+			}).catch((e) => {
+				e.should.be.an.instanceof(DuplicateEntryError);
+			});
 		});
 	});
 
@@ -101,7 +108,7 @@ describe('ElasticGolem', function () {
 					hits.should.have.length.gt(0);
 					done();
 				})
-				.catch( (err) => {
+				.catch((err) => {
 					console.error(err);
 					done();
 				});
