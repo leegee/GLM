@@ -27,7 +27,7 @@ var record = {
 	"siteid": "142326775790907_427534710603444"
 };
 
-beforeEach( function () {
+before( function () {
 	this.timeout(30 * 1000);
 	es = new ElasticGolem(config);
 	return es.setup()
@@ -36,10 +36,14 @@ beforeEach( function () {
 		});
 });
 
-afterEach( function () {
+after( function () {
 	this.timeout(10 * 1000);
 	return es.client.indices.delete({
-		index: TEST_INDEX_NAME
+		index: '_all'
+	}).then(() => {
+		console.info('Deleted all indexes');
+	}).catch((err) => {
+		console.error('Failed to delete all indexes', err);
 	});
 });
 
