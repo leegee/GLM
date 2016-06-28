@@ -81,6 +81,12 @@ describe('ElasticGolem', function () {
 			return es.save(posting);
 		});
 
+		it('pauses', () => {
+			return pause(2000).then( () => {
+				'ok'.should.be.defined;
+			} );
+		});
+
 		it('duplicate detected', () => {
 			return es.save(posting).then(() => {
 				throw new Error('Failed ');
@@ -93,6 +99,10 @@ describe('ElasticGolem', function () {
 	xdescribe('search', () => {
 		it('search with term returns a Promise', () => {
 			return es.search('test').should.be.fulfilled;
+		});
+
+		it('pauses', () => {
+			return delay(2000);
 		});
 
 		it('search without term returns a Promise', () => {
