@@ -6,22 +6,14 @@ const expect = chai.expect;
 const Page = require('../lib/Facebook/Page');
 const Facebook = require('../lib/facebook');
 
-var config;
+var config = require('../package.json');
+config.elasticsearch.index = 'test';
+
 
 describe('Load modules', function () {
 	expect(Facebook).not.to.be.an('undefined');
 	expect(Page).not.to.be.an('undefined');
-
-	describe('Config', function () {
-		it('loads', function () {
-			config = require(__dirname + '/../package.json');
-			expect(config).to.be.an('object');
-			expect(config.facebook).to.be.an('object');
-			expect(config.facebook.appId).to.be.a('string');
-		});
-	});
 });
-
 
 describe('Facebook', function () {
 	var facebook;
@@ -58,11 +50,9 @@ describe('Facebook', function () {
 		it('should fetch from Facebook', function (done) {
 			var p = page.get();
 			expect(p).to.be.an.instanceof(Promise);
-			p
-			.then(() => {
+			p.then(() => {
 				done();
-			})
-			.catch((err) => {
+			}).catch((err) => {
 				done();
 				throw err;
 			});
