@@ -81,11 +81,9 @@ describe('ElasticGolem', function () {
 			return es.save(posting);
 		});
 
-		it('pauses', () => {
-			return pause(2000).then( () => {
-				'ok'.should.be.defined;
-			} );
-		});
+		it('pauses', (done) => {
+			return pause(2000).then(done);
+		}).timeout(2100);
 
 		it('duplicate detected', () => {
 			return es.save(posting).then(() => {
@@ -96,43 +94,36 @@ describe('ElasticGolem', function () {
 		});
 	});
 
-	xdescribe('search', () => {
-		it('search with term returns a Promise', () => {
+	describe('search', () => {
+		it('with term returns a Promise', () => {
 			return es.search('test').should.be.fulfilled;
 		});
 
-		it('pauses', () => {
-			return delay(2000);
-		});
-
-		it('search without term returns a Promise', () => {
+		it('without term returns a Promise', () => {
 			return es.search().should.be.fulfilled;
 		});
 
-		it('searches with term', (done) => {
-			return es.search('test')
-				.then((res) => {
-					var hits = res.hits.hits;
-					should.equal(typeof hits, 'object', 'hits list');
-					hits.should.be.instanceof(Array, 'hits list');
-					hits.should.have.length.gt(0);
-					done();
-				})
-				.catch((err) => {
-					console.error(err);
-					done();
-				});
+		it('with term', (done) => {
+			return es.search('test').then((res) => {
+				var hits = res.hits.hits;
+				should.equal(typeof hits, 'object', 'hits list');
+				hits.should.be.instanceof(Array, 'hits list');
+				hits.should.have.length.gt(0);
+				done();
+			}).catch((err) => {
+				console.error(err);
+				done();
+			});
 		});
 
-		it('searches without any term', (done) => {
-			return es.search()
-				.then((res) => {
-					var hits = res.hits.hits;
-					should.equal(typeof hits, 'object', 'hits list');
-					hits.should.be.instanceof(Array, 'hits list');
-					hits.should.have.length.gt(0);
-					done();
-				});
+		it('without any term', (done) => {
+			return es.search().then((res) => {
+				var hits = res.hits.hits;
+				should.equal(typeof hits, 'object', 'hits list');
+				hits.should.be.instanceof(Array, 'hits list');
+				hits.should.have.length.gt(0);
+				done();
+			});
 		});
 
 	});
