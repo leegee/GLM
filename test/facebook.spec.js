@@ -2,7 +2,6 @@
 
 const chai = require('chai');
 const assert = chai.assert;
-const expect = chai.expect;
 const Page = require('../lib/Facebook/Page');
 const Facebook = require('../lib/facebook');
 
@@ -20,11 +19,11 @@ describe('Facebook', function () {
 	it('instantiation', function () {
 		expect(Facebook).not.to.be.an('undefined');
 		facebook = new Facebook(config);
-		expect(facebook).to.be.an('object');
-		expect(facebook).to.be.an.instanceof(Facebook);
-		expect(facebook.options).to.be.an('object');
-		expect(facebook.options.facebook).to.be.an('object');
-		expect(facebook.options.facebook.appId).to.be.a('string');
+		facebook.should.be.an('object');
+		facebook.should.be.an.instanceof(Facebook);
+		facebook.options.should.be.an('object');
+		facebook.options.facebook.should.be.an('object');
+		facebook.options.facebook.appId.should.be.a('string');
 	});
 
 	it('connects', function (done) {
@@ -32,7 +31,7 @@ describe('Facebook', function () {
 		var c = facebook.connect();
 		expect(c).to.be.instanceof(Promise);
 		c.then(() => {
-			expect(facebook.accessToken).not.to.be.an('undefined');
+			facebook.accessToken.should.not.to.be.an('undefined');
 			done();
 		});
 	});
@@ -42,13 +41,13 @@ describe('Facebook', function () {
 
 		it('should be instantiate from Facebook', function () {
 			page = facebook.newPage('142326775790907');
-			expect(page).not.to.be.an('undefined');
-			expect(page).to.be.an.instanceof(Page);
+			page.should.not.be.an('undefined');
+			page.should.be.an.instanceof(Page);
 		});
 
 		it('should fetch from Facebook', function (done) {
 			var p = page.get();
-			expect(p).to.be.an.instanceof(Promise);
+			p.should.be.an.instanceof(Promise);
 			p.then(() => {
 				done();
 			}).catch((err) => {
