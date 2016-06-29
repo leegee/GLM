@@ -22,11 +22,11 @@ var config = require('../package.json');
 config.elasticsearch.index = 'test';
 
 const postingFixture = {
-	"id": "1",
-	"text": "Test text from a Facebook message.",
-	"source": "Facebook",
-	"created": "2012-06-14T01:26:14+0000",
-	"idfromsite": "99999999999999_999999999999999"
+	id: '1',
+	text: 'Test text from a Facebook message.',
+	source: 'Facebook',
+	created: '2012-06-14T01:26:14+0000',
+	idfromsite: '99999999999999_999999999999999'
 };
 
 var es, posting;

@@ -9,8 +9,7 @@ const Facebook = require('../lib/facebook');
 var config = require('../package.json');
 config.elasticsearch.index = 'test';
 
-
-describe('Load modules', function () {
+it('Loads modules', function () {
 	expect(Facebook).not.to.be.an('undefined');
 	expect(Page).not.to.be.an('undefined');
 });
@@ -18,7 +17,7 @@ describe('Load modules', function () {
 describe('Facebook', function () {
 	var facebook;
 
-	it('should instantiate', function () {
+	it('instantiation', function () {
 		expect(Facebook).not.to.be.an('undefined');
 		facebook = new Facebook(config);
 		expect(facebook).to.be.an('object');
