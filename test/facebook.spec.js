@@ -2,6 +2,7 @@
 
 const chai = require('chai');
 const assert = chai.assert;
+const expect = chai.expect;
 const Page = require('../lib/Facebook/Page');
 const Facebook = require('../lib/facebook');
 
