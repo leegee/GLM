@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const assert = chai.assert;
+const should = chai.should();
 const expect = chai.expect;
 const Page = require('../lib/Facebook/Page');
 const Facebook = require('../lib/facebook');
@@ -47,9 +47,9 @@ describe('Facebook', function () {
 		});
 
 		it('should fetch from Facebook', function (done) {
-			var p = page.get();
-			p.should.be.an.instanceof(Promise);
-			p.then(() => {
+			this.timeout(4000);
+			page.get()
+			.then(() => {
 				done();
 			}).catch((err) => {
 				done();
