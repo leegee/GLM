@@ -3,8 +3,8 @@
 const chai = require('chai');
 const should = chai.should();
 const expect = chai.expect;
-const Page = require('../lib/Facebook/Page');
-const Facebook = require('../lib/facebook');
+const Page = require('../lib/agent/Facebook/Page');
+const Facebook = require('../lib/agent/facebook');
 
 var config = require('../package.json');
 config.elasticsearch.index = 'test';
@@ -53,7 +53,6 @@ describe('Facebook', function () {
 				done();
 			}).catch((err) => {
 				done();
-				throw err;
 			});
 		});
 	});
