@@ -15,7 +15,7 @@ const should = chai.should();
 
 require('../lib/Errors');
 const logger = new require('../lib/Logger');
-const Posting = require('../lib/Posting');
+const Posting = require('../lib/ElasticGolem/Posting');
 const ElasticGolem = require('../lib/ElasticGolem');
 
 var config = require('../package.json');
