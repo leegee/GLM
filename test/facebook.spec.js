@@ -3,6 +3,7 @@
 const chai = require('chai');
 const should = chai.should();
 const expect = chai.expect;
+const fb = require('./mock/fb');
 const Page = require('../lib/agent/Facebook/Page');
 const Post = require('../lib/agent/Facebook/Post');
 const Facebook = require('../lib/agent/facebook');
@@ -50,10 +51,10 @@ describe('Facebook', function () {
 			post = new Post(options)
 			.ingest()
 				.then(() => {
-					console.log('DONE');
+					this.logger.trace('DONE');
 					done();
 				}).catch((err) => {
-					console.log('FAIL', err);
+					this.logger.error('FAIL', err);
 					done();
 				});			
 		});
