@@ -3,7 +3,7 @@
 const chai = require('chai');
 const should = chai.should();
 const expect = chai.expect;
-const fb = require('./mock/fb');
+const fb = require('fb'); // require('./mock/fb');
 const Page = require('../lib/agent/Facebook/Page');
 const Post = require('../lib/agent/Facebook/Post');
 const Facebook = require('../lib/agent/facebook');
